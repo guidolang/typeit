@@ -1,0 +1,339 @@
+:root {
+  color-scheme: light;
+  --bg-top: #faf6e8;
+  --bg-bottom: #d8f0ea;
+  --ink: #202124;
+  --muted: #6a6f78;
+  --board: #1f2430;
+  --board-correct: #15946a;
+  --board-wrong: #d83f3f;
+  --surface: #ffffff;
+  --border: #d9dee8;
+  --focus: #3767e8;
+  --shadow: 0 24px 70px rgba(28, 35, 48, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 215, 82, 0.38), transparent 26%),
+    radial-gradient(circle at 86% 78%, rgba(53, 151, 255, 0.22), transparent 28%),
+    linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 4px solid color-mix(in srgb, var(--focus), white 42%);
+  outline-offset: 3px;
+}
+
+.app {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+}
+
+.icon-button {
+  display: inline-grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 1px solid rgba(32, 33, 36, 0.12);
+  border-radius: 8px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 8px 24px rgba(32, 33, 36, 0.12);
+}
+
+.icon-button:hover {
+  background: #ffffff;
+}
+
+.icon-button svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.settings-button {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 4;
+}
+
+.letter-board {
+  position: relative;
+  display: grid;
+  width: min(80vh, 90vw);
+  aspect-ratio: 1;
+  place-items: center;
+  overflow: hidden;
+  border-radius: clamp(18px, 4vw, 32px);
+  background: var(--board);
+  box-shadow: var(--shadow);
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.letter-board.correct {
+  background: var(--board-correct);
+  animation: correct-bounce 700ms ease;
+}
+
+.letter-board.wrong {
+  background: var(--board-wrong);
+  animation: wrong-shake 720ms ease;
+}
+
+.letter {
+  position: relative;
+  z-index: 2;
+  line-height: 1;
+  color: #ffffff;
+  font-size: clamp(9rem, 46vmin, 20rem);
+  font-weight: 800;
+  user-select: none;
+}
+
+.letter-board.correct .letter {
+  animation: letter-pop 700ms ease;
+}
+
+.letter-board.wrong .letter {
+  color: #ffd7d7;
+}
+
+.rainbow-layer,
+.flash-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rainbow-layer.active {
+  opacity: 0.72;
+  animation: rainbow 1s linear infinite;
+}
+
+.flash-layer.active {
+  background: #ffffff;
+  animation: flash 480ms ease forwards;
+}
+
+.settings-dialog {
+  width: min(420px, calc(100vw - 32px));
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  color: var(--ink);
+  background: transparent;
+}
+
+.settings-dialog::backdrop {
+  background: rgba(18, 23, 33, 0.46);
+}
+
+.settings-panel {
+  display: grid;
+  gap: 22px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.settings-header,
+.settings-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.settings-header h1 {
+  margin: 0;
+  font-size: 1.2rem;
+  letter-spacing: 0;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.field input {
+  width: 100%;
+  height: 48px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--ink);
+  background: #ffffff;
+  font-size: 1.15rem;
+  text-transform: uppercase;
+}
+
+.settings-actions {
+  justify-content: flex-end;
+}
+
+.text-button {
+  min-width: 88px;
+  min-height: 42px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.text-button.secondary {
+  border-color: var(--border);
+  color: var(--ink);
+  background: #ffffff;
+}
+
+.text-button.primary {
+  color: #ffffff;
+  background: #2261d8;
+}
+
+.floating-emoji {
+  position: fixed;
+  z-index: 10;
+  top: 100vh;
+  font-size: 2rem;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+@keyframes correct-bounce {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  28% {
+    transform: scale(1.12);
+  }
+  56% {
+    transform: scale(0.96);
+  }
+  78% {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes wrong-shake {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0);
+  }
+  16% {
+    transform: translateX(-18px) rotate(-6deg);
+  }
+  32% {
+    transform: translateX(18px) rotate(6deg);
+  }
+  48% {
+    transform: translateX(-12px) rotate(-4deg);
+  }
+  64% {
+    transform: translateX(12px) rotate(4deg);
+  }
+  80% {
+    transform: translateX(-6px) rotate(-2deg);
+  }
+}
+
+@keyframes letter-pop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.15);
+  }
+}
+
+@keyframes rainbow {
+  0% {
+    background: #ff595e;
+  }
+  20% {
+    background: #ffca3a;
+  }
+  40% {
+    background: #8ac926;
+  }
+  60% {
+    background: #1982c4;
+  }
+  80% {
+    background: #6a4c93;
+  }
+  100% {
+    background: #ff595e;
+  }
+}
+
+@keyframes flash {
+  0% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 540px) {
+  .app {
+    padding: 16px;
+  }
+
+  .settings-button {
+    top: 12px;
+    right: 12px;
+  }
+
+  .icon-button {
+    width: 44px;
+    height: 44px;
+  }
+}

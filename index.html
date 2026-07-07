@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TypeIt</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231f2430'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Arial' font-size='38' font-weight='700' fill='white'%3ET%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <main class="app" aria-labelledby="letter">
+      <button class="icon-button settings-button" id="settingsButton" type="button" aria-label="Settings" title="Settings">
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
+          <path
+            d="M19.4 15a1.8 1.8 0 0 0 .36 1.98l.05.05a2.1 2.1 0 1 1-2.97 2.97l-.05-.05a1.8 1.8 0 0 0-1.98-.36 1.8 1.8 0 0 0-1.1 1.65v.14a2.1 2.1 0 1 1-4.2 0v-.08A1.8 1.8 0 0 0 8.4 19.6a1.8 1.8 0 0 0-1.98.36l-.05.05a2.1 2.1 0 1 1-2.97-2.97l.05-.05A1.8 1.8 0 0 0 3.8 15a1.8 1.8 0 0 0-1.65-1.1h-.14a2.1 2.1 0 1 1 0-4.2h.08A1.8 1.8 0 0 0 3.8 8.6a1.8 1.8 0 0 0-.36-1.98l-.05-.05A2.1 2.1 0 1 1 6.36 3.6l.05.05A1.8 1.8 0 0 0 8.4 4a1.8 1.8 0 0 0 1.1-1.65v-.14a2.1 2.1 0 1 1 4.2 0v.08A1.8 1.8 0 0 0 14.8 4a1.8 1.8 0 0 0 1.98-.36l.05-.05a2.1 2.1 0 1 1 2.97 2.97l-.05.05a1.8 1.8 0 0 0-.36 1.98 1.8 1.8 0 0 0 1.65 1.1h.14a2.1 2.1 0 1 1 0 4.2h-.08A1.8 1.8 0 0 0 19.4 15Z"
+          ></path>
+        </svg>
+      </button>
+
+      <section class="letter-board" id="letterBoard" aria-live="polite">
+        <div class="rainbow-layer" id="rainbowLayer"></div>
+        <div class="flash-layer" id="flashLayer"></div>
+        <div class="letter" id="letter">H</div>
+      </section>
+    </main>
+
+    <dialog class="settings-dialog" id="settingsDialog">
+      <form method="dialog" class="settings-panel">
+        <header class="settings-header">
+          <h1>Settings</h1>
+          <button class="icon-button" id="closeButton" value="cancel" type="submit" aria-label="Close" title="Close">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="m6 6 12 12M18 6 6 18"></path>
+            </svg>
+          </button>
+        </header>
+
+        <label class="field">
+          <span>Word to practice</span>
+          <input id="wordInput" name="word" autocomplete="off" spellcheck="false" maxlength="24" />
+        </label>
+
+        <footer class="settings-actions">
+          <button class="text-button secondary" id="cancelButton" value="cancel" type="submit">Cancel</button>
+          <button class="text-button primary" id="saveButton" value="default" type="submit">Save</button>
+        </footer>
+      </form>
+    </dialog>
+  </body>
+</html>
